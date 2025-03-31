@@ -127,7 +127,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimalListaSimplaCirculara.c" />
     <ClCompile Include="SubiectComanda.c" />
+    <ClCompile Include="SubiectFilm.c" />
+    <ClCompile Include="tasksuplimentarSDD_structurisifunctii.c" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt" />

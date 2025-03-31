@@ -1,0 +1,5 @@
+1 LIVRATA Vero_Maxian 4 40.5 
+1 ASTEPTARE Ion_Vasile 2 25.4 
+1 ANULATA Maria_Vas 3 30.6 
+4 ANULATA Maria_Vas 3 50.6 
+5 LIVRATA Alina_Bradu 6 80.4
