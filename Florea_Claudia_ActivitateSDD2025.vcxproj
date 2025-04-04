@@ -131,6 +131,7 @@
     <ClCompile Include="SubiectComanda.c" />
     <ClCompile Include="SubiectFilm.c" />
     <ClCompile Include="tasksuplimentarSDD_structurisifunctii.c" />
+    <ClCompile Include="taskurisuplimentare_vectori1.c" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt" />

@@ -27,6 +27,9 @@
     <ClCompile Include="tasksuplimentarSDD_structurisifunctii.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="taskurisuplimentare_vectori1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
