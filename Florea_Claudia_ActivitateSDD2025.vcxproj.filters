@@ -30,6 +30,9 @@
     <ClCompile Include="taskurisuplimentare_vectori1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SubiectServicii_HashTable.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
