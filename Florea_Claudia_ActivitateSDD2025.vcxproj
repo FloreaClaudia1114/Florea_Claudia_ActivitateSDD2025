@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimalListaSimplaCirculara.c" />
+    <ClCompile Include="ListaSimpla.c" />
     <ClCompile Include="SubiectComanda.c" />
     <ClCompile Include="SubiectFilm.c" />
     <ClCompile Include="SubiectServicii_HashTable.c" />
