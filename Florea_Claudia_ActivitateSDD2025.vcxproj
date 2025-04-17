@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimalListaSimplaCirculara.c" />
+    <ClCompile Include="ListaDubla.c" />
     <ClCompile Include="ListaSimpla.c" />
     <ClCompile Include="SubiectComanda.c" />
     <ClCompile Include="SubiectFilm.c" />
