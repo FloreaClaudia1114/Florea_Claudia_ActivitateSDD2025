@@ -1,0 +1,5 @@
+1 Carrefour Popescu 150.00 10.0 card
+2 Lidl Ionescu 50.00 5.0 cash
+3 Kaufland Georgescu 200.00 20.0 card
+4 MegaImage Vasilescu 300.00 15.0 card
+5 Auchan Popescu 120.00 8.0 cash
