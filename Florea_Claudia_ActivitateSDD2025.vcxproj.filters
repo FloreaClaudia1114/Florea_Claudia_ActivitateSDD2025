@@ -45,6 +45,9 @@
     <ClCompile Include="Subiect_Structura_Catalog_HT.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Subiect_Farmacii_Arbore_binar_cautare.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
@@ -54,6 +57,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="cataloage.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="farmacii.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
