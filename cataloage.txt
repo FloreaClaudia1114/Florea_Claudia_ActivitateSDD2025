@@ -1,0 +1,5 @@
+1001 Programare Informatica 3 10 9 8
+1002 Matematica Informatica 2 7 6
+1003 Fizica Chimie 4 8 9 10 7
+1004 Istorie Geografie 2 5 8
+1005 Sport Educatie 1 10

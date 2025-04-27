@@ -42,12 +42,18 @@
     <ClCompile Include="Subiect_Tranzactii_HT.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Subiect_Structura_Catalog_HT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="tranzactii.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="cataloage.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
