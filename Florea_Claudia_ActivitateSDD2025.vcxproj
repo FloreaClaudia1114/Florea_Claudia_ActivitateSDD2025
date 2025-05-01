@@ -130,6 +130,7 @@
     <ClCompile Include="AnimalListaSimplaCirculara.c" />
     <ClCompile Include="ListaDubla.c" />
     <ClCompile Include="ListaSimpla.c" />
+    <ClCompile Include="ListaSimplaCirculara.c" />
     <ClCompile Include="SubiectComanda.c" />
     <ClCompile Include="SubiectFilm.c" />
     <ClCompile Include="SubiectServicii_HashTable.c" />
