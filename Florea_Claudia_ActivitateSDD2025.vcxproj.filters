@@ -57,6 +57,9 @@
     <ClCompile Include="ListaDublaInlantuita_Proiect.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ArboreBinardeCautare.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
