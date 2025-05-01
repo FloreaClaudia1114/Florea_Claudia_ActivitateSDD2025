@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="AnimalListaSimplaCirculara.c" />
     <ClCompile Include="ListaDubla.c" />
+    <ClCompile Include="ListaDublaCirculara.c" />
     <ClCompile Include="ListaSimpla.c" />
     <ClCompile Include="ListaSimplaCirculara.c" />
     <ClCompile Include="SubiectComanda.c" />
