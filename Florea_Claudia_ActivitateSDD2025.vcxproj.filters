@@ -66,6 +66,9 @@
     <ClCompile Include="taskurisuplimentare_citiredinfisier.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="taskurisuplimentare_matrici.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
