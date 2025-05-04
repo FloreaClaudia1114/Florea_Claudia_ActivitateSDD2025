@@ -63,6 +63,9 @@
     <ClCompile Include="Subiect_Arbore_binar_continuare_.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="taskurisuplimentare_citiredinfisier.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
@@ -75,6 +78,9 @@
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="farmacii.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="citire.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

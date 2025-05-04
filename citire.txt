@@ -1,0 +1,10 @@
+1,Catena,23,25.75
+2,Dona,89,89.99
+3,HelpNet,107,23.89
+4,Dona,12,22.40
+5,Tei,8,18.90
+6,Farmacia 3,5,25.20
+7,ABC Pharma,7,20.30
+8,Farmex,9,24.10
+9,PharmaPlus,11,22.00
+10,Vitalia,6,19.50

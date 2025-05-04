@@ -142,10 +142,12 @@
     <ClCompile Include="Subiect_Structura_Catalog_HT.c" />
     <ClCompile Include="Subiect_Tranzactii_HT.c" />
     <ClCompile Include="tasksuplimentarSDD_structurisifunctii.c" />
+    <ClCompile Include="taskurisuplimentare_citiredinfisier.c" />
     <ClCompile Include="taskurisuplimentare_vectori1.c" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="cataloage.txt" />
+    <Text Include="citire.txt" />
     <Text Include="farmacii.txt" />
     <Text Include="fisier.txt" />
     <Text Include="tranzactii.txt" />
