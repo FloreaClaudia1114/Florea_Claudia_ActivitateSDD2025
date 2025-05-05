@@ -72,6 +72,9 @@
     <ClCompile Include="HashTable_Document.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ListaDublaInlantuita_Virus.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
