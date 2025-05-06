@@ -146,6 +146,7 @@
     <ClCompile Include="Subiect_Tranzactii_HT.c" />
     <ClCompile Include="tasksuplimentarSDD_structurisifunctii.c" />
     <ClCompile Include="taskurisuplimentare_citiredinfisier.c" />
+    <ClCompile Include="taskurisuplimentare_hashtable.c" />
     <ClCompile Include="taskurisuplimentare_matrici.c" />
     <ClCompile Include="taskurisuplimentare_vectori1.c" />
   </ItemGroup>
