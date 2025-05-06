@@ -141,6 +141,7 @@
     <ClCompile Include="SubiectServicii_HashTable.c" />
     <ClCompile Include="Subiect_Arbore_binar_continuare_.c" />
     <ClCompile Include="Subiect_Farmacii_Arbore_binar_cautare.c" />
+    <ClCompile Include="Subiect_Rezervare_HT.c" />
     <ClCompile Include="Subiect_Structura_Catalog_HT.c" />
     <ClCompile Include="Subiect_Tranzactii_HT.c" />
     <ClCompile Include="tasksuplimentarSDD_structurisifunctii.c" />

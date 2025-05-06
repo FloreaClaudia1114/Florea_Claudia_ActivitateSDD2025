@@ -75,6 +75,9 @@
     <ClCompile Include="ListaDublaInlantuita_Virus.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Subiect_Rezervare_HT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
