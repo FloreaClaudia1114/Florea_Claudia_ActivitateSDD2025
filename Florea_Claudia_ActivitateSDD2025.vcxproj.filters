@@ -81,6 +81,9 @@
     <ClCompile Include="taskurisuplimentare_hashtable.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="taskurisuplimentare_heap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
