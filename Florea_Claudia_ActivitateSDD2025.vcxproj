@@ -137,6 +137,7 @@
     <ClCompile Include="ListaSimpla.c" />
     <ClCompile Include="ListaSimplaCirculara.c" />
     <ClCompile Include="SubiectComanda.c" />
+    <ClCompile Include="SubiectFarmacie_AVL.c" />
     <ClCompile Include="SubiectFilm.c" />
     <ClCompile Include="SubiectServicii_HashTable.c" />
     <ClCompile Include="Subiect_Arbore_binar_continuare_.c" />

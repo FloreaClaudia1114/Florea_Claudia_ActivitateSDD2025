@@ -84,6 +84,9 @@
     <ClCompile Include="taskurisuplimentare_heap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SubiectFarmacie_AVL.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
