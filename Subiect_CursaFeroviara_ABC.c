@@ -1,4 +1,4 @@
-#define _CRT_NO_SECURE_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,7 +6,7 @@
 
 typedef struct Cursa {
 	unsigned int nrcursa;
-	char* datacursa;//pointer
+	char* datacursa;
 	unsigned char nrvagoane;
 	unsigned short int nrbilete;
 	float pretbilet;
@@ -33,27 +33,32 @@ Cursa* initializareCursa(unsigned int nrcursa, char* datacursa, unsigned char nr
 }
 
 NodABC* initializareNod(Cursa* cursa) {
-	NodABC* nodNou = (NodABC*)malloc(sizeof(nodNou) + 1);
+	NodABC* nodNou = (NodABC*)malloc(sizeof(NodABC));
 	nodNou->info = cursa;
 	nodNou->left = NULL;
 	nodNou->right = NULL;
 
 	return nodNou;
 }
+
 NodABC* inserareArbore(NodABC* radacina, Cursa* cursa) {
+	printf("Inserare in arbore: %u\n", cursa->nrcursa);
+
 	if (radacina == NULL) {
+		printf("Inserare cursa: %u\n", cursa->nrcursa);
 		return initializareNod(cursa);
 	}
 
 	if (cursa->nrcursa < radacina->info->nrcursa) {
-		radacina->left = inserareArbore(radacina->left, radacina);
+		radacina->left = inserareArbore(radacina->left, cursa);
 	}
 	else if (cursa->nrcursa > radacina->info->nrcursa) {
-		radacina->right = inserareArbore(radacina->right, radacina);
+		radacina->right = inserareArbore(radacina->right, cursa);
 	}
 
 	return radacina;
 }
+
 void afisarePreordine(NodABC* radacina) {
 	if (radacina != NULL) {
 		printf("%u %s %hhu %hu %.2f\n",
@@ -99,5 +104,40 @@ void afisareSubordine(NodABC* radacina) {
 	}
 }
 int main() {
+	unsigned int nrcursa;
+	char datacursa[100];
+	unsigned char nrvagoane;
+	unsigned short int nrbilete;
+	float pretbilet;
+
+	NodABC* radacina = NULL;
+	/// citim fisierul 
+
+	FILE* file = fopen("curse.txt", "r");
+	if (!file) {
+		perror("Eroare la deschiderea fisierului:");
+		return 1;
+	}
+
+
+	printf("Fisier deschis cu succes\n");
+
+	while (fscanf(file, "%u %s %hhu %hu %.2f", &nrcursa, datacursa, &nrvagoane, &nrbilete, &pretbilet) == 5) {
+
+		printf("Citit cursa: %u %s %hhu %hu %.2f\n", nrcursa, datacursa, nrvagoane, nrbilete, pretbilet);
+
+
+		Cursa* cursa = initializareCursa(nrcursa, datacursa, nrvagoane, nrbilete, pretbilet);
+		radacina = inserareArbore(radacina, cursa);
+	}
+	fclose(file);
+
+	printf("Afisare preordine:\n");
+	afisarePreordine(radacina);
+
 
 }
+
+
+
+
