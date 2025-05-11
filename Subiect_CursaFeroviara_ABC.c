@@ -40,3 +40,64 @@ NodABC* initializareNod(Cursa* cursa) {
 
 	return nodNou;
 }
+NodABC* inserareArbore(NodABC* radacina, Cursa* cursa) {
+	if (radacina == NULL) {
+		return initializareNod(cursa);
+	}
+
+	if (cursa->nrcursa < radacina->info->nrcursa) {
+		radacina->left = inserareArbore(radacina->left, radacina);
+	}
+	else if (cursa->nrcursa > radacina->info->nrcursa) {
+		radacina->right = inserareArbore(radacina->right, radacina);
+	}
+
+	return radacina;
+}
+void afisarePreordine(NodABC* radacina) {
+	if (radacina != NULL) {
+		printf("%u %s %hhu %hu %.2f\n",
+			radacina->info->nrcursa,
+			radacina->info->datacursa,
+			radacina->info->nrvagoane,
+			radacina->info->nrbilete,
+			radacina->info->pretbilet);
+
+		afisarePreordine(radacina->left);
+		afisarePreordine(radacina->right);
+	}
+}
+
+void afisareInordine(NodABC* radacina) {
+	if (radacina != NULL) {
+		afisareInordine(radacina->left);
+
+		printf("%u %s %hhu %hu %.2f\n",
+			radacina->info->nrcursa,
+			radacina->info->datacursa,
+			radacina->info->nrvagoane,
+			radacina->info->nrbilete,
+			radacina->info->pretbilet);
+
+		afisareInordine(radacina->right);
+	}
+}
+
+void afisareSubordine(NodABC* radacina) {
+	if (radacina != NULL) {
+		afisareInordine(radacina->left);
+		afisareInordine(radacina->right);
+
+		printf("%u %s %hhu %hu %.2f\n",
+			radacina->info->nrcursa,
+			radacina->info->datacursa,
+			radacina->info->nrvagoane,
+			radacina->info->nrbilete,
+			radacina->info->pretbilet);
+
+
+	}
+}
+int main() {
+
+}
