@@ -87,6 +87,9 @@
     <ClCompile Include="SubiectFarmacie_AVL.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Subiect_CursaFeroviara_ABC.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
