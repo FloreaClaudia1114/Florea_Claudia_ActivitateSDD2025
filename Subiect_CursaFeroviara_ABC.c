@@ -150,19 +150,19 @@ NodABC* stergereNodArbore(NodABC* radacina, unsigned int id) {
 			temp = temp->left;
 		}
 
-		
+		// Copierea valorilor succesorului in nodul curent
 		radacina->info->nrcursa = temp->info->nrcursa;
-		free(radacina->info->datacursa);  
-		radacina->info->datacursa = (char*)malloc(strlen(temp->info->datacursa) + 1);  
+		free(radacina->info->datacursa);  // Eliberare memorie pentru vechiul șir
+		radacina->info->datacursa = (char*)malloc(strlen(temp->info->datacursa) + 1);  // Alocare memorie pentru noul șir
 		if (radacina->info->datacursa != NULL) {
-			strcpy(radacina->info->datacursa, temp->info->datacursa);  
+			strcpy(radacina->info->datacursa, temp->info->datacursa);  // Copierea șirului
 		}
 		radacina->info->nrvagoane = temp->info->nrvagoane;
 		radacina->info->nrbilete = temp->info->nrbilete;
 		radacina->info->pretbilet = temp->info->pretbilet;
 
 
-	
+		// Stergerea succesorului
 		radacina->right = stergereNodArbore(radacina->right, temp->info->nrcursa);
 	}
 
@@ -193,10 +193,10 @@ NodABC* subarboreMaiInalt(NodABC* radacina) {
 
 	// Comparam inaltimile si returnam subarborele cu inaltimea mai mare
 	if (inaltimeStanga >= inaltimeDreapta) {
-		return radacina->left; 
+		return radacina->left; // Returneaza subarborele stang
 	}
 	else {
-		return radacina->right; 
+		return radacina->right; // Returneaza subarborele drept
 	}
 }
 
@@ -222,10 +222,11 @@ int main() {
 
 	while (fscanf(file, "%u %s %hhu %hu %f", &nrcursa, datacursa, &nrvagoane, &nrbilete, &pretbilet) == 5) {
 		printf("Citit cursa: %u %s %hhu %hu %.2f\n", nrcursa, datacursa, nrvagoane, nrbilete, pretbilet);
+
+		Cursa* cursa = initializareCursa(nrcursa, datacursa, nrvagoane, nrbilete, pretbilet);
+		radacina = inserareArbore(radacina, cursa);
 	}
 
-	Cursa* cursa = initializareCursa(nrcursa, datacursa, nrvagoane, nrbilete, pretbilet);
-	radacina = inserareArbore(radacina, cursa);
 
 
 	fclose(file);
@@ -233,18 +234,16 @@ int main() {
 	printf("Afisare preordine inainte de stergere nod\n");
 	afisarePreordine(radacina);
 
+    unsigned int idDeSters;
+	printf("\nIntroduceti ID-ul cursei de sters: ");
+	scanf("%u", &idDeSters);
 
+	radacina = stergereNodArbore(radacina, idDeSters);
 
-	///*unsigned int idDeSters;
-	//printf("\nIntroduceti ID-ul cursei de sters: ");
-	//scanf("%u", &idDeSters);
+	printf("\nAfisare preordine dupa stergere:\n");
+	afisarePreordine(radacina);
 
-	//radacina = stergereNodArbore(radacina, idDeSters);*/
-
-	//printf("\nAfisare preordine dupa stergere:\n");
-	//afisarePreordine(radacina);
-
-	// Apelam functia pentru a obtine subarborele cu inaltimea mai mare
+	//Apelam functia pentru a obtine subarborele cu inaltimea mai mare
 	NodABC* subarbore = subarboreMaiInalt(radacina);
 
 	// Afisam subarborele rezultat, daca exista
