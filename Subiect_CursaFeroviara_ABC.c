@@ -184,19 +184,57 @@ int inaltimeArbore(NodABC* radacina) {
 // Functie care returneaza subarborele cu inaltimea mai mare
 NodABC* subarboreMaiInalt(NodABC* radacina) {
 	if (radacina == NULL) {
-		return NULL; // Dacă arborele este gol, nu există subarbore
+		return NULL;
 	}
 
-	// Calculam inaltimea subarborelui stang si drept
+
 	int inaltimeStanga = inaltimeArbore(radacina->left);
 	int inaltimeDreapta = inaltimeArbore(radacina->right);
 
-	// Comparam inaltimile si returnam subarborele cu inaltimea mai mare
+
 	if (inaltimeStanga >= inaltimeDreapta) {
-		return radacina->left; // Returneaza subarborele stang
+		return radacina->left;
 	}
 	else {
-		return radacina->right; // Returneaza subarborele drept
+		return radacina->right;
+	}
+}
+
+
+// Functie care calculeaza numarul de noduri din subordine pentru un nod radacina
+int numarNoduriSubordine(NodABC* radacina) {
+	if (radacina == NULL) {
+		return 0;
+	}
+
+
+	int noduriStanga = numarNoduriSubordine(radacina->left);
+	int noduriDreapta = numarNoduriSubordine(radacina->right);
+
+
+	return 1 + noduriStanga + noduriDreapta;
+}
+
+// Functie care returneaza subarborele cu mai multe noduri in subordine
+NodABC* subarboreMaiMultiNoduri(NodABC* radacina) {
+	if (radacina == NULL) {
+		return NULL;
+	}
+
+	if (radacina->left == NULL && radacina->right == NULL) {
+		printf("Nodul nu are subarbore.\n");
+		return NULL;
+	}
+
+	// Calculam numarul de noduri din subordine pentru fiecare subarbore
+	int noduriStanga = numarNoduriSubordine(radacina->left);
+	int noduriDreapta = numarNoduriSubordine(radacina->right);
+
+	if (noduriStanga >= noduriDreapta) {
+		return radacina->left;
+	}
+	else {
+		return radacina->right;
 	}
 }
 
@@ -234,7 +272,9 @@ int main() {
 	printf("Afisare preordine inainte de stergere nod\n");
 	afisarePreordine(radacina);
 
-    unsigned int idDeSters;
+
+
+	unsigned int idDeSters;
 	printf("\nIntroduceti ID-ul cursei de sters: ");
 	scanf("%u", &idDeSters);
 
@@ -246,7 +286,7 @@ int main() {
 	//Apelam functia pentru a obtine subarborele cu inaltimea mai mare
 	NodABC* subarbore = subarboreMaiInalt(radacina);
 
-	// Afisam subarborele rezultat, daca exista
+
 	if (subarbore != NULL) {
 		printf("Subarborele cu inaltimea mai mare are radacina: %u\n", subarbore->info->nrcursa);
 	}
@@ -254,6 +294,17 @@ int main() {
 		printf("Nu exista subarbore.\n");
 	}
 
+	// Verificam numarul de noduri din subordine pentru radacina
+	printf("\nNumarul de noduri aflate in subordine pentru radacina este: %d\n", numarNoduriSubordine(radacina) - 1);
+
+	// Apelam functia pentru a obtine subarborele cu mai multe noduri
+	NodABC* subarboreMaxNoduri = subarboreMaiMultiNoduri(radacina);
+	if (subarboreMaxNoduri != NULL) {
+		printf("\nSubarborele cu mai multe noduri in subordine are radacina: %u\n", subarboreMaxNoduri->info->nrcursa);
+	}
+	else {
+		printf("\nNodul nu are subarbore cu noduri.\n");
+	}
 
 	dezalocareArbore(radacina);
 	return 0;
