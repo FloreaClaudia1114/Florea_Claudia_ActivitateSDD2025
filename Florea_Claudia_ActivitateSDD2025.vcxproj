@@ -136,6 +136,7 @@
     <ClCompile Include="ListaDublaInlantuita_Virus.c" />
     <ClCompile Include="ListaSimpla.c" />
     <ClCompile Include="ListaSimplaCirculara.c" />
+    <ClCompile Include="Structura_Farmacie_Heap.c" />
     <ClCompile Include="SubiectComanda.c" />
     <ClCompile Include="SubiectFarmacie_AVL.c" />
     <ClCompile Include="SubiectFilm.c" />

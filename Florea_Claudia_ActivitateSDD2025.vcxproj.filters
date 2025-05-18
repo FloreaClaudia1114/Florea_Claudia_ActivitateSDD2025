@@ -96,6 +96,9 @@
     <ClCompile Include="Subiect_Depozit_ABC_partea2.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Structura_Farmacie_Heap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
