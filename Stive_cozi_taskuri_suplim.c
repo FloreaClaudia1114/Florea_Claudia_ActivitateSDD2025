@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,15 +12,15 @@ typedef struct Farmacie {
     char* localitate;
 } Farmacie;
 
+typedef struct NodCoada {
+    Farmacie info;
+    struct NodCoada* next;
+} NodCoada;
 
 typedef struct {
-    Farmacie* vector;
-    int capacitate;
-    int start;
-    int final;
-    int nrElemente;
+    NodCoada* start;  
+    NodCoada* final; 
 } CoadaFarmacie;
-
 
 Farmacie copieFarmacie(const Farmacie* f) {
     Farmacie copie;
@@ -46,70 +46,66 @@ void elibereazaFarmacie(Farmacie* f) {
     free(f->localitate);
 }
 
-
-void initCoada(CoadaFarmacie* c, int capacitate) {
-    c->vector = (Farmacie*)malloc(sizeof(Farmacie) * capacitate);
-    c->capacitate = capacitate;
-    c->start = 0;
-    c->final = 0;
-    c->nrElemente = 0;
+void initCoada(CoadaFarmacie* c) {
+    c->start = NULL;
+    c->final = NULL;
 }
 
 int esteGoala(CoadaFarmacie* c) {
-    return c->nrElemente == 0;
+    return c->start == NULL;
 }
-
-int estePlina(CoadaFarmacie* c) {
-    return c->nrElemente == c->capacitate;
-}
-
 
 int enqueue(CoadaFarmacie* c, Farmacie f) {
-    if (estePlina(c)) {
-        printf("Coada este plina, nu se poate adauga!\n");
+    NodCoada* nodNou = (NodCoada*)malloc(sizeof(NodCoada));
+    if (!nodNou) {
+        printf("Eroare la alocarea memoriei pentru nod nou.\n");
         return 0;
     }
-    c->vector[c->final] = copieFarmacie(&f);
-    c->final = (c->final + 1) % c->capacitate;
-    c->nrElemente++;
+    nodNou->info = copieFarmacie(&f);
+    nodNou->next = NULL;
+
+    if (esteGoala(c)) {
+        c->start = nodNou;
+        c->final = nodNou;
+    }
+    else {
+        c->final->next = nodNou;
+        c->final = nodNou;
+    }
     return 1;
 }
-
 
 int dequeue(CoadaFarmacie* c, Farmacie* f) {
     if (esteGoala(c)) {
         printf("Coada este goala, nu se poate scoate!\n");
         return 0;
     }
-    *f = copieFarmacie(&c->vector[c->start]);
-    elibereazaFarmacie(&c->vector[c->start]);
-    c->start = (c->start + 1) % c->capacitate;
-    c->nrElemente--;
+    NodCoada* temp = c->start;
+    *f = copieFarmacie(&temp->info);
+
+    c->start = temp->next;
+    if (c->start == NULL) {
+        c->final = NULL;
+    }
+
+    elibereazaFarmacie(&temp->info);
+    free(temp);
+
     return 1;
 }
 
-
 void distrugeCoada(CoadaFarmacie* c) {
-    while (!esteGoala(c)) {
-        Farmacie f;
-        dequeue(c, &f);
+    Farmacie f;
+    while (dequeue(c, &f)) {
         elibereazaFarmacie(&f);
     }
-    free(c->vector);
-    c->vector = NULL;
-    c->capacitate = 0;
-    c->start = 0;
-    c->final = 0;
-    c->nrElemente = 0;
 }
-
 
 void afiseazaFarmacie(const Farmacie* f) {
     printf("ID: %hu, Denumire: %s, Cifra afaceri: %.2f, Farmacist sef: %s, Nr angajati: %d, Localitate: %s\n",
         f->idFarmacie, f->denumireFarmacie, f->cifraAfaceriAnuala,
         f->numeFarmacistSef, f->nrAngajati, f->localitate);
 }
-
 
 int citesteFarmaciiDinFisier(const char* numeFisier, CoadaFarmacie* coada) {
     FILE* f = fopen(numeFisier, "r");
@@ -141,7 +137,7 @@ int citesteFarmaciiDinFisier(const char* numeFisier, CoadaFarmacie* coada) {
         strcpy(fNou.localitate, bufferLocalitate);
 
         if (!enqueue(coada, fNou)) {
-            printf("Coada plina, oprire citire.\n");
+            printf("Eroare la adaugarea in coada, oprire citire.\n");
             elibereazaFarmacie(&fNou);
             break;
         }
@@ -152,10 +148,9 @@ int citesteFarmaciiDinFisier(const char* numeFisier, CoadaFarmacie* coada) {
     return 1;
 }
 
-
 int main() {
     CoadaFarmacie coada;
-    initCoada(&coada, 100);
+    initCoada(&coada);
 
     if (!citesteFarmaciiDinFisier("farmacii.txt", &coada)) {
         printf("Eroare la citirea fisierului.\n");
