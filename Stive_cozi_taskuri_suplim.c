@@ -12,25 +12,16 @@ typedef struct Farmacie {
     char* localitate;
 } Farmacie;
 
+
+typedef struct NodStiva {
+    Farmacie info;
+    struct NodStiva* next;
+} NodStiva;
+
 typedef struct {
-    Farmacie* vector;
-    int varf;
-    int capacitate;
+    NodStiva* varf;
 } StivaFarmacie;
 
-void initStiva(StivaFarmacie* s, int capacitate) {
-    s->vector = (Farmacie*)malloc(sizeof(Farmacie) * capacitate);
-    s->varf = -1;
-    s->capacitate = capacitate;
-}
-
-int esteGoala(StivaFarmacie* s) {
-    return s->varf == -1;
-}
-
-int estePlina(StivaFarmacie* s) {
-    return s->varf == s->capacitate - 1;
-}
 
 Farmacie copieFarmacie(const Farmacie* f) {
     Farmacie copie;
@@ -56,41 +47,65 @@ void elibereazaFarmacie(Farmacie* f) {
     free(f->localitate);
 }
 
+
+void initStiva(StivaFarmacie* s) {
+    s->varf = NULL;
+}
+
+int esteGoala(StivaFarmacie* s) {
+    return s->varf == NULL;
+}
+
+
 int push(StivaFarmacie* s, Farmacie f) {
-    if (estePlina(s)) {
-        printf("Stiva este plina, nu se poate adauga!\n");
+    NodStiva* nodNou = (NodStiva*)malloc(sizeof(NodStiva));
+    if (!nodNou) {
+        printf("Eroare la alocarea memoriei pentru nod nou.\n");
         return 0;
     }
-    s->varf++;
-    s->vector[s->varf] = copieFarmacie(&f);
+
+    nodNou->info = copieFarmacie(&f);
+    nodNou->next = s->varf;
+    s->varf = nodNou;
     return 1;
 }
+
 
 int pop(StivaFarmacie* s, Farmacie* f) {
     if (esteGoala(s)) {
         printf("Stiva este goala, nu se poate scoate!\n");
         return 0;
     }
-    *f = s->vector[s->varf];
-    s->varf--;
+
+    NodStiva* temp = s->varf;
+    *f = copieFarmacie(&temp->info);
+    s->varf = temp->next;
+
+
+    elibereazaFarmacie(&temp->info);
+    free(temp);
+
     return 1;
 }
 
+
 void distrugeStiva(StivaFarmacie* s) {
-    for (int i = 0; i <= s->varf; i++) {
-        elibereazaFarmacie(&s->vector[i]);
+    NodStiva* temp;
+    while (s->varf) {
+        temp = s->varf;
+        s->varf = s->varf->next;
+        elibereazaFarmacie(&temp->info);
+        free(temp);
     }
-    free(s->vector);
-    s->vector = NULL;
-    s->varf = -1;
-    s->capacitate = 0;
 }
+
 
 void afiseazaFarmacie(const Farmacie* f) {
     printf("ID: %hu, Denumire: %s, Cifra afaceri: %.2f, Farmacist sef: %s, Nr angajati: %d, Localitate: %s\n",
         f->idFarmacie, f->denumireFarmacie, f->cifraAfaceriAnuala,
         f->numeFarmacistSef, f->nrAngajati, f->localitate);
 }
+
 
 int citesteFarmaciiDinFisier(const char* numeFisier, StivaFarmacie* stiva) {
     FILE* f = fopen(numeFisier, "r");
@@ -111,7 +126,6 @@ int citesteFarmaciiDinFisier(const char* numeFisier, StivaFarmacie* stiva) {
         fNou.idFarmacie = id;
         fNou.cifraAfaceriAnuala = cifra;
         fNou.nrAngajati = nrAng;
-
 
         fNou.denumireFarmacie = (char*)malloc(strlen(bufferDenumire) + 1);
         strcpy(fNou.denumireFarmacie, bufferDenumire);
@@ -135,10 +149,9 @@ int citesteFarmaciiDinFisier(const char* numeFisier, StivaFarmacie* stiva) {
 }
 
 
-
 int main() {
     StivaFarmacie stiva;
-    initStiva(&stiva, 100);
+    initStiva(&stiva);
 
     if (!citesteFarmaciiDinFisier("farmacii.txt", &stiva)) {
         printf("Eroare la citirea fisierului.\n");
@@ -146,21 +159,30 @@ int main() {
     }
 
     printf("Farmacii citite din fisier:\n");
-    for (int i = stiva.varf; i >= 0; i--) {
-        afiseazaFarmacie(&stiva.vector[i]);
+
+    StivaFarmacie stivaTemp;
+    initStiva(&stivaTemp);
+
+    Farmacie f;
+    while (pop(&stiva, &f)) {
+        afiseazaFarmacie(&f);
+        push(&stivaTemp, f);
+        elibereazaFarmacie(&f);
     }
 
+
+    while (pop(&stivaTemp, &f)) {
+        push(&stiva, f);
+        elibereazaFarmacie(&f);
+    }
+    distrugeStiva(&stivaTemp);
+
     printf("\nScoatem elementele din stiva:\n");
-    Farmacie fScoasa;
-    while (pop(&stiva, &fScoasa)) {
-        afiseazaFarmacie(&fScoasa);
-        elibereazaFarmacie(&fScoasa);
+    while (pop(&stiva, &f)) {
+        afiseazaFarmacie(&f);
+        elibereazaFarmacie(&f);
     }
 
     distrugeStiva(&stiva);
     return 0;
 }
-
-
-
-
