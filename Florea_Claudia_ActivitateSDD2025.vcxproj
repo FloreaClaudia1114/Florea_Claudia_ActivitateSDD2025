@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="AnimalListaSimplaCirculara.c" />
     <ClCompile Include="ArboreBinardeCautare.c" />
+    <ClCompile Include="AVL_taskurisuplimentare.c" />
     <ClCompile Include="HashTable_Document.c" />
     <ClCompile Include="ListaDubla.c" />
     <ClCompile Include="ListaDublaCirculara.c" />

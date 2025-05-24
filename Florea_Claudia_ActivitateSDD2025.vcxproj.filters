@@ -99,6 +99,9 @@
     <ClCompile Include="Structura_Farmacie_Heap.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AVL_taskurisuplimentare.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
