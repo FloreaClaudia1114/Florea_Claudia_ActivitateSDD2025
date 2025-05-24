@@ -12,15 +12,15 @@ typedef struct Farmacie {
     char* localitate;
 } Farmacie;
 
-typedef struct NodStiva {
-    Farmacie info;
-    struct NodStiva* next;
-    struct NodStiva* prev;
-} NodStiva;
 
 typedef struct {
-    NodStiva* varf;
-} StivaFarmacie;
+    Farmacie* vector;
+    int capacitate;
+    int start;
+    int final;
+    int nrElemente;
+} CoadaFarmacie;
+
 
 Farmacie copieFarmacie(const Farmacie* f) {
     Farmacie copie;
@@ -46,63 +46,63 @@ void elibereazaFarmacie(Farmacie* f) {
     free(f->localitate);
 }
 
-void initStiva(StivaFarmacie* s) {
-    s->varf = NULL;
+
+void initCoada(CoadaFarmacie* c, int capacitate) {
+    c->vector = (Farmacie*)malloc(sizeof(Farmacie) * capacitate);
+    c->capacitate = capacitate;
+    c->start = 0;
+    c->final = 0;
+    c->nrElemente = 0;
 }
 
-int esteGoala(StivaFarmacie* s) {
-    return s->varf == NULL;
+int esteGoala(CoadaFarmacie* c) {
+    return c->nrElemente == 0;
 }
 
-int push(StivaFarmacie* s, Farmacie f) {
-    NodStiva* nodNou = (NodStiva*)malloc(sizeof(NodStiva));
-    if (!nodNou) {
-        printf("Eroare la alocarea memoriei pentru nod nou.\n");
+int estePlina(CoadaFarmacie* c) {
+    return c->nrElemente == c->capacitate;
+}
+
+
+int enqueue(CoadaFarmacie* c, Farmacie f) {
+    if (estePlina(c)) {
+        printf("Coada este plina, nu se poate adauga!\n");
         return 0;
     }
-    nodNou->info = copieFarmacie(&f);
-    nodNou->next = NULL;
-    nodNou->prev = s->varf;
-
-    if (s->varf != NULL) {
-        s->varf->next = nodNou;
-    }
-    s->varf = nodNou;
-
+    c->vector[c->final] = copieFarmacie(&f);
+    c->final = (c->final + 1) % c->capacitate;
+    c->nrElemente++;
     return 1;
 }
 
-int pop(StivaFarmacie* s, Farmacie* f) {
-    if (esteGoala(s)) {
-        printf("Stiva este goala, nu se poate scoate!\n");
+
+int dequeue(CoadaFarmacie* c, Farmacie* f) {
+    if (esteGoala(c)) {
+        printf("Coada este goala, nu se poate scoate!\n");
         return 0;
     }
-
-    NodStiva* temp = s->varf;
-    *f = copieFarmacie(&temp->info);
-
-    s->varf = temp->prev;
-
-    if (s->varf != NULL) {
-        s->varf->next = NULL;
-    }
-
-    elibereazaFarmacie(&temp->info);
-    free(temp);
-
+    *f = copieFarmacie(&c->vector[c->start]);
+    elibereazaFarmacie(&c->vector[c->start]);
+    c->start = (c->start + 1) % c->capacitate;
+    c->nrElemente--;
     return 1;
 }
 
-void distrugeStiva(StivaFarmacie* s) {
-    NodStiva* temp = s->varf;
-    while (temp != NULL) {
-        NodStiva* deEliberat = temp;
-        temp = temp->prev;
-        elibereazaFarmacie(&deEliberat->info);
-        free(deEliberat);
+
+void distrugeCoada(CoadaFarmacie* c) {
+    while (!esteGoala(c)) {
+        Farmacie f;
+        dequeue(c, &f);
+        elibereazaFarmacie(&f);
     }
-    s->varf = NULL;
+    free(c->vector);
+    c->vector = NULL;
+    c->capacitate = 0;
+    c->start = 0;
+    c->final = 0;
+    c->nrElemente = 0;
 }
+
 
 void afiseazaFarmacie(const Farmacie* f) {
     printf("ID: %hu, Denumire: %s, Cifra afaceri: %.2f, Farmacist sef: %s, Nr angajati: %d, Localitate: %s\n",
@@ -110,7 +110,8 @@ void afiseazaFarmacie(const Farmacie* f) {
         f->numeFarmacistSef, f->nrAngajati, f->localitate);
 }
 
-int citesteFarmaciiDinFisier(const char* numeFisier, StivaFarmacie* stiva) {
+
+int citesteFarmaciiDinFisier(const char* numeFisier, CoadaFarmacie* coada) {
     FILE* f = fopen(numeFisier, "r");
     if (!f) {
         printf("Nu s-a putut deschide fisierul %s\n", numeFisier);
@@ -139,8 +140,8 @@ int citesteFarmaciiDinFisier(const char* numeFisier, StivaFarmacie* stiva) {
         fNou.localitate = (char*)malloc(strlen(bufferLocalitate) + 1);
         strcpy(fNou.localitate, bufferLocalitate);
 
-        if (!push(stiva, fNou)) {
-            printf("Eroare la push, oprire citire.\n");
+        if (!enqueue(coada, fNou)) {
+            printf("Coada plina, oprire citire.\n");
             elibereazaFarmacie(&fNou);
             break;
         }
@@ -151,40 +152,23 @@ int citesteFarmaciiDinFisier(const char* numeFisier, StivaFarmacie* stiva) {
     return 1;
 }
 
-int main() {
-    StivaFarmacie stiva;
-    initStiva(&stiva);
 
-    if (!citesteFarmaciiDinFisier("farmacii.txt", &stiva)) {
+int main() {
+    CoadaFarmacie coada;
+    initCoada(&coada, 100);
+
+    if (!citesteFarmaciiDinFisier("farmacii.txt", &coada)) {
         printf("Eroare la citirea fisierului.\n");
         return 1;
     }
 
-    printf("Farmacii citite din fisier:\n");
-
-
-    StivaFarmacie stivaTemp;
-    initStiva(&stivaTemp);
-
+    printf("Farmacii citite din fisier (ordine FIFO):\n");
     Farmacie f;
-    while (pop(&stiva, &f)) {
-        afiseazaFarmacie(&f);
-        push(&stivaTemp, f);
-        elibereazaFarmacie(&f);
-    }
-
-    while (pop(&stivaTemp, &f)) {
-        push(&stiva, f);
-        elibereazaFarmacie(&f);
-    }
-    distrugeStiva(&stivaTemp);
-
-    printf("\nScoatem elementele din stiva:\n");
-    while (pop(&stiva, &f)) {
+    while (dequeue(&coada, &f)) {
         afiseazaFarmacie(&f);
         elibereazaFarmacie(&f);
     }
 
-    distrugeStiva(&stiva);
+    distrugeCoada(&coada);
     return 0;
 }
