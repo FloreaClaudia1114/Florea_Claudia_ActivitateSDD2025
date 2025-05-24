@@ -12,16 +12,15 @@ typedef struct Farmacie {
     char* localitate;
 } Farmacie;
 
-
 typedef struct NodStiva {
     Farmacie info;
     struct NodStiva* next;
+    struct NodStiva* prev;
 } NodStiva;
 
 typedef struct {
     NodStiva* varf;
 } StivaFarmacie;
-
 
 Farmacie copieFarmacie(const Farmacie* f) {
     Farmacie copie;
@@ -47,7 +46,6 @@ void elibereazaFarmacie(Farmacie* f) {
     free(f->localitate);
 }
 
-
 void initStiva(StivaFarmacie* s) {
     s->varf = NULL;
 }
@@ -56,20 +54,23 @@ int esteGoala(StivaFarmacie* s) {
     return s->varf == NULL;
 }
 
-
 int push(StivaFarmacie* s, Farmacie f) {
     NodStiva* nodNou = (NodStiva*)malloc(sizeof(NodStiva));
     if (!nodNou) {
         printf("Eroare la alocarea memoriei pentru nod nou.\n");
         return 0;
     }
-
     nodNou->info = copieFarmacie(&f);
-    nodNou->next = s->varf;
+    nodNou->next = NULL;
+    nodNou->prev = s->varf;
+
+    if (s->varf != NULL) {
+        s->varf->next = nodNou;
+    }
     s->varf = nodNou;
+
     return 1;
 }
-
 
 int pop(StivaFarmacie* s, Farmacie* f) {
     if (esteGoala(s)) {
@@ -79,8 +80,12 @@ int pop(StivaFarmacie* s, Farmacie* f) {
 
     NodStiva* temp = s->varf;
     *f = copieFarmacie(&temp->info);
-    s->varf = temp->next;
 
+    s->varf = temp->prev;
+
+    if (s->varf != NULL) {
+        s->varf->next = NULL;
+    }
 
     elibereazaFarmacie(&temp->info);
     free(temp);
@@ -88,24 +93,22 @@ int pop(StivaFarmacie* s, Farmacie* f) {
     return 1;
 }
 
-
 void distrugeStiva(StivaFarmacie* s) {
-    NodStiva* temp;
-    while (s->varf) {
-        temp = s->varf;
-        s->varf = s->varf->next;
-        elibereazaFarmacie(&temp->info);
-        free(temp);
+    NodStiva* temp = s->varf;
+    while (temp != NULL) {
+        NodStiva* deEliberat = temp;
+        temp = temp->prev;
+        elibereazaFarmacie(&deEliberat->info);
+        free(deEliberat);
     }
+    s->varf = NULL;
 }
-
 
 void afiseazaFarmacie(const Farmacie* f) {
     printf("ID: %hu, Denumire: %s, Cifra afaceri: %.2f, Farmacist sef: %s, Nr angajati: %d, Localitate: %s\n",
         f->idFarmacie, f->denumireFarmacie, f->cifraAfaceriAnuala,
         f->numeFarmacistSef, f->nrAngajati, f->localitate);
 }
-
 
 int citesteFarmaciiDinFisier(const char* numeFisier, StivaFarmacie* stiva) {
     FILE* f = fopen(numeFisier, "r");
@@ -137,7 +140,7 @@ int citesteFarmaciiDinFisier(const char* numeFisier, StivaFarmacie* stiva) {
         strcpy(fNou.localitate, bufferLocalitate);
 
         if (!push(stiva, fNou)) {
-            printf("Stiva plina, oprire citire.\n");
+            printf("Eroare la push, oprire citire.\n");
             elibereazaFarmacie(&fNou);
             break;
         }
@@ -147,7 +150,6 @@ int citesteFarmaciiDinFisier(const char* numeFisier, StivaFarmacie* stiva) {
     fclose(f);
     return 1;
 }
-
 
 int main() {
     StivaFarmacie stiva;
@@ -160,6 +162,7 @@ int main() {
 
     printf("Farmacii citite din fisier:\n");
 
+
     StivaFarmacie stivaTemp;
     initStiva(&stivaTemp);
 
@@ -169,7 +172,6 @@ int main() {
         push(&stivaTemp, f);
         elibereazaFarmacie(&f);
     }
-
 
     while (pop(&stivaTemp, &f)) {
         push(&stiva, f);
