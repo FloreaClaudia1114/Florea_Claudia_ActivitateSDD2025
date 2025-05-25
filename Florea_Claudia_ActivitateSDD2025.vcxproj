@@ -132,6 +132,7 @@
     <ClCompile Include="AVL_taskurisuplimentare.c" />
     <ClCompile Include="Coada_taskuri_suplimentare.c" />
     <ClCompile Include="HashTable_Document.c" />
+    <ClCompile Include="Heap_Subiect_CursaAeriana.c" />
     <ClCompile Include="ListaDubla.c" />
     <ClCompile Include="ListaDublaCirculara.c" />
     <ClCompile Include="ListaDublaInlantuita_Proiect.c" />

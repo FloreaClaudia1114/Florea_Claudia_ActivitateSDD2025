@@ -108,6 +108,9 @@
     <ClCompile Include="Coada_taskuri_suplimentare.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Heap_Subiect_CursaAeriana.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="fisier.txt">
